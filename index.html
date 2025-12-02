@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Modern Neon Calculator</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#000428,#004e92);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .calculator{
+        width:330px;
+        background:#0d0d0d;
+        padding:20px;
+        border-radius:20px;
+        box-shadow:0 0 25px rgba(0,255,255,0.4),
+                    0 0 50px rgba(0,150,255,0.3);
+        animation: glow 3s infinite alternate;
+    }
+
+    @keyframes glow {
+        0%{
+            box-shadow:0 0 15px rgba(0,255,255,0.3);
+        }
+        100%{
+            box-shadow:0 0 40px rgba(0,255,255,0.6);
+        }
+    }
+
+    #display{
+        width:100%;
+        padding:20px;
+        border:none;
+        outline:none;
+        background:#001f3f;
+        font-size:32px;
+        color:#00eaff;
+        border-radius:12px;
+        text-align:right;
+        letter-spacing:1px;
+        margin-bottom:20px;
+        box-shadow: inset 0 0 10px rgba(0,255,255,0.3);
+    }
+
+    .buttons{
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:12px;
+    }
+
+    button{
+        padding:18px;
+        font-size:22px;
+        border:none;
+        border-radius:12px;
+        cursor:pointer;
+        font-weight:bold;
+        background:#111;
+        color:white;
+        box-shadow:0 0 15px rgba(0,255,255,0.2);
+        transition:0.2s;
+    }
+
+    button:active{
+        transform:scale(0.92);
+    }
+
+    .operator{
+        background:#005eff;
+        box-shadow:0 0 15px rgba(0,100,255,0.6);
+    }
+
+    .clear{
+        background:#ff1744;
+        box-shadow:0 0 15px rgba(255,23,68,0.6);
+    }
+
+    .equal{
+        background:#00e676;
+        grid-column:span 2;
+        box-shadow:0 0 15px rgba(0,230,118,0.6);
+    }
+
+    .delete{
+        background:#ff9100;
+        box-shadow:0 0 15px rgba(255,145,0,0.6);
+    }
+
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" disabled>
+
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button class="delete" onclick="deleteLast()">⌫</button>
+        <button class="operator" onclick="appendValue('%')">%</button>
+        <button class="operator" onclick="appendValue('/')">÷</button>
+
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button class="operator" onclick="appendValue('*')">×</button>
+
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button class="operator" onclick="appendValue('-')">−</button>
+
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button class="operator" onclick="appendValue('+')">+</button>
+
+        <button onclick="appendValue('0')" style="grid-column:span 2;">0</button>
+        <button onclick="appendValue('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+    function appendValue(value){
+        document.getElementById("display").value += value;
+    }
+
+    function clearDisplay(){
+        document.getElementById("display").value = "";
+    }
+
+    function deleteLast(){
+        let display = document.getElementById("display");
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculate(){
+        let display = document.getElementById("display");
+        try{
+            display.value = eval(
+                display.value
+                    .replace(/×/g,'*')
+                    .replace(/÷/g,'/')
+            );
+        }
+        catch{
+            display.value = "Error";
+        }
+    }
+</script>
+
+</body>
+</html>
